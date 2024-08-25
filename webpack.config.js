@@ -25,6 +25,17 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader', // Using babel-loader to handle JavaScript files
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   devServer: {

@@ -3,7 +3,7 @@ module.exports = {
     '@babel/preset-env',
     '@babel/preset-react',
     '@babel/preset-typescript',
-    'module:@react-native/babel-preset'
+    'module:@react-native/babel-preset',
   ],
   plugins: [
     ['@babel/plugin-transform-class-properties', { 'loose': true }],
