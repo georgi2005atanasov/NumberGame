@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import EnterNumber from './components/EnterNumber';
-import GuessNumber from './components/GuessNumber';
+import GameLayout from './components/GameLayout';
 
 const App: React.FC = () => {
   return (
       <View style={styles.background}>
-        <EnterNumber />
-        <GuessNumber />
+        <GameLayout />
       </View>
   );
 };

@@ -1,31 +1,57 @@
-import React, { useState } from 'react';
+import React from 'react';
 import alert from '../utilities/alert';
 import { View, Text, TextInput, StyleSheet, Pressable, Platform } from 'react-native';
+import { useGameContext } from '../contexts/GameProvider';
+import { GamePhases } from '../contexts/GameProvider';
 
 const EnterNumber = () => {
-    const [number, setNumber] = useState<string>(''); // Store input as a string
+    const {
+        number,
+        setNumber,
+        gamePhase,
+        setGamePhase,
+    } = useGameContext();
 
     const handleSubmit = () => {
         const numericValue = parseInt(number as any, 10);
 
-        console.log(numericValue);
         if (isNaN(numericValue)) {
             alert('Please enter a valid number.');
+            return;
+        }
+
+        if (numericValue > 100 || numericValue < 0) {
+            alert('Please enter a valid number.');
+            return;
+        }
+
+        setGamePhase(GamePhases.GuessingNumber);
+    };
+
+    const handleChange = (text: string) => {
+        const numericValue = parseInt(text, 10);
+        if (!isNaN(numericValue)) {
+            setNumber(numericValue);
         } else {
-            alert(`You entered: ${numericValue}`);
+            setNumber(null);
         }
     };
 
+    if (gamePhase !== GamePhases.ChoosingNumber) {
+        return <></>;
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Choose a number between 1 and 100:</Text>
+            <Text style={styles.header}>Choose a number between 0 and 100:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Type here..."
-                keyboardType="numeric"
-                value={`${number}`}
-                onChangeText={setNumber}
+                keyboardType={Platform.OS === 'ios' ? 'decimal-pad' : 'numeric'}
+                value={number || number === 0 ? `${number}` : ''}
+                onChangeText={handleChange}
                 underlineColorAndroid="transparent"
+                inputMode={Platform.OS === 'web' ? 'decimal' : undefined}
             />
             <Pressable style={styles.button} onPress={handleSubmit}>
                 <Text style={styles.buttonText}>Submit</Text>
